@@ -1,0 +1,11 @@
+[
+  {
+    "uuid": "p2222222-aaaa-4bbb-8ccc-000000000002",
+    "name": "Informatieplan",
+    "description": "Informatieplan voor de regio",
+    "prompt_template": "Schrijf in heldere taal.",
+    "created_at": "2025-03-01T08:00:00Z",
+    "updated_at": "2025-03-20T08:00:00Z",
+    "docs": [{"uuid": "d3333333", "filename": "kaders.md", "content": "Common Ground en Samen Beslissen.", "created_at": "2025-03-02T08:00:00Z"}]
+  }
+]

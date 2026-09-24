@@ -1,0 +1,36 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Mainframe: status",
+      "type": "shell",
+      "command": "python -m mainframe status",
+      "problemMatcher": []
+    },
+    {
+      "label": "Mainframe: zoeken",
+      "type": "shell",
+      "command": "python -m mainframe zoek ${input:zoekterm}",
+      "problemMatcher": []
+    },
+    {
+      "label": "Mainframe: Claude Code-sessies importeren",
+      "type": "shell",
+      "command": "python -m mainframe importeer claude-code",
+      "problemMatcher": []
+    },
+    {
+      "label": "Mainframe: tests",
+      "type": "shell",
+      "command": "python -m unittest discover -s tests",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "zoekterm",
+      "type": "promptString",
+      "description": "Waar zoek je naar?"
+    }
+  ]
+}

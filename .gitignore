@@ -1,0 +1,29 @@
+# Persoonlijke gegevens blijven op je eigen computer en gaan nooit naar GitHub.
+archief/*
+!archief/.gitkeep
+inbox/*
+!inbox/.gitkeep
+.mainframe/
+
+# Geheimen en sleutels (voor latere koppelingen met Google en Microsoft)
+.env
+.env.*
+*.pem
+credentials*.json
+token*.json
+client_secret*.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Besturingssysteem en editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/*
+!.vscode/extensions.json
+!.vscode/tasks.json

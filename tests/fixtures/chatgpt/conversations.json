@@ -1,0 +1,16 @@
+[
+  {
+    "title": "PGO-koppelingen",
+    "create_time": 1718000000.5,
+    "update_time": 1718003600.0,
+    "conversation_id": "gpt-abc-123",
+    "current_node": "n4",
+    "mapping": {
+      "n0": {"id": "n0", "message": null, "parent": null, "children": ["n1"]},
+      "n1": {"id": "n1", "message": {"author": {"role": "system"}, "content": {"content_type": "text", "parts": [""]}, "metadata": {"is_visually_hidden_from_conversation": true}}, "parent": "n0", "children": ["n2"]},
+      "n2": {"id": "n2", "message": {"author": {"role": "user"}, "content": {"content_type": "text", "parts": ["Welke PGO-koppelingen zijn er?"]}}, "parent": "n1", "children": ["n3a", "n4"]},
+      "n3a": {"id": "n3a", "message": {"author": {"role": "assistant"}, "content": {"content_type": "text", "parts": ["VERWORPEN ANTWOORD"]}}, "parent": "n2", "children": []},
+      "n4": {"id": "n4", "message": {"author": {"role": "assistant"}, "content": {"content_type": "text", "parts": ["Via MedMij-afspraken."]}}, "parent": "n2", "children": []}
+    }
+  }
+]

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mainframe"
+version = "0.1.0"
+description = "Persoonlijk archief voor chats, code en documenten"
+readme = "README.md"
+requires-python = ">=3.10"
+# Bewust geen afhankelijkheden: alles draait op standaard Python.
+dependencies = []
+
+[project.scripts]
+mainframe = "mainframe.cli:main"
+
+[tool.setuptools]
+packages = ["mainframe", "mainframe.importers"]
