@@ -31,10 +31,18 @@ Elke fase levert iets op dat je direct kunt gebruiken. Pas als een fase in de pr
 
 ## Fase 5: Werkportaal (optioneel)
 
-- Gmail en Agenda erbij. Gmail stond in je oorspronkelijke wens, maar niet in de lijst voor versie 1. Dat kan via Google Takeout (mbox) of via de Gmail API.
+- Gmail en Agenda erbij, via Google Takeout (mbox) of de Gmail API. Afgesproken: Gmail komt later, als het archief in de praktijk goed werkt.
 - Automatiseringen, bijvoorbeeld met n8n.
 
-## Openstaande vragen
+## Genomen besluiten
 
-- Gmail: in welke fase wil je die erbij hebben?
-- Back-up: kies je voor de standaardmap of voor Google Drive (zie stappenplan, stap 3)?
+| Onderwerp | Besluit |
+|---|---|
+| Doel versie 1 | Eerst een archief, dashboard en automatisering later |
+| Opslag | Echte kopie van de inhoud, niet alleen links |
+| Accounts | Alleen persoonlijke accounts |
+| Waar het draait | Lokaal op de eigen computer |
+| AI | Claude, via Claude Code (valt binnen Claude Pro) |
+| Kosten | Geen extra kosten naast Claude Pro |
+| Back-up | Archief in Google Drive (`MAINFRAME_ARCHIEF`), index en inbox lokaal |
+| Gmail | Later, na fase 1 |

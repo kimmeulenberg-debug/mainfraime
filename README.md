@@ -8,7 +8,7 @@ Mijn persoonlijke archief. Hier komen alle chats, projecten, codesessies en docu
 
 - **Eerst een archief.** Eerst alles bewaren en terugvinden. Een dashboard en automatiseringen komen later.
 - **Ik houd zelf een kopie.** De inhoud wordt echt opgeslagen, dus niet alleen een link naar de bron. Het archief blijft bruikbaar als een dienst stopt of iets verwijdert.
-- **Alles lokaal en privé.** Het archief staat op mijn eigen computer. Deze repository bevat alleen de code, nooit de inhoud (zie `.gitignore`).
+- **Alles lokaal en privé.** Het archief staat op mijn eigen computer, in de Google Drive-map. Zo wordt het automatisch geback-upt. Deze repository bevat alleen de code, nooit de inhoud (zie `.gitignore`).
 - **Alleen persoonlijke accounts.** Werkgegevens en zeker patiëntgegevens horen hier niet in.
 - **Geen extra kosten.** Er is alleen standaard Python nodig. Voor AI gebruik ik Claude Code, dat bij mijn Claude Pro-abonnement zit.
 - **Open formaat.** Elk archiefstuk is een gewoon Markdown-bestand, leesbaar zonder deze software.
@@ -39,7 +39,7 @@ Daarna kun je in VS Code aan Claude Code vragen stellen als *"Wat heb ik vorig j
 
 ```
 mainframe/     de code (importers, archief, zoeken)
-archief/       het archief zelf, één map per bron (niet in Git)
+archief/       standaardplek van het archief (bij mij: Google Drive, via MAINFRAME_ARCHIEF)
 inbox/         hier zet je exportbestanden neer om te importeren (niet in Git)
 docs/          documentatie
 tests/         automatische tests met voorbeeldgegevens

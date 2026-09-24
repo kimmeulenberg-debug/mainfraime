@@ -20,7 +20,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from xml.etree import ElementTree
 
-from mainframe.archief import Item
+from mainframe.archief import MARKERING, Item
 
 TEKST = {".md", ".txt", ".csv", ".json", ".py", ".js", ".ts", ".sql", ".yaml", ".yml"}
 HTML = {".html", ".htm"}
@@ -65,7 +65,10 @@ def importeer(pad: Path, bron: str, project: str | None = None):
     pad = Path(pad)
     basis = pad if pad.is_dir() else pad.parent
     bestanden = [pad] if pad.is_file() else sorted(p for p in pad.rglob("*") if p.is_file())
+    archiefmappen = [m.parent for m in bestanden if m.name == MARKERING]
     for bestand in bestanden:
+        if any(bestand.is_relative_to(m) for m in archiefmappen):
+            continue
         if bestand.name.lower() in OVERSLAAN or bestand.name.startswith("."):
             continue
         relatief = bestand.relative_to(basis).as_posix()

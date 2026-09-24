@@ -39,24 +39,37 @@ python -m mainframe status
 
 Je krijgt de melding *"Het archief is nog leeg"*. Het werkt.
 
-## Stap 3. Kies waar het archief komt te staan (± 5 minuten)
+## Stap 3. Zet het archief in Google Drive (± 10 minuten)
 
-Standaard komt het archief in de map `archief/` binnen de repository. Die map gaat **niet** naar GitHub, dus je moet zelf voor een back-up zorgen. Er zijn twee opties:
+Het archief gaat **niet** naar GitHub. Als back-up zetten we het daarom in je Google Drive. De code blijft in de repository. De zoekindex en de inbox blijven op je computer, want een database die door Google Drive wordt gesynchroniseerd kan beschadigd raken.
 
-- **A. Gebruik de standaardmap** en neem de hele map `Mainframe` op in je gewone back-up (bijvoorbeeld OneDrive of een externe schijf).
-- **B. Zet het archief in je Google Drive-map.** Dan wordt het automatisch geback-upt, als je Google Drive voor desktop hebt. Stel dan eenmalig in:
+```
+Documenten\Mainframe\               ← repository (code, inbox, zoekindex)
+Google Drive\Mijn Drive\Mainframe-archief\   ← archief (automatisch geback-upt)
+```
 
-  ```powershell
-  # Windows (PowerShell). Sluit daarna VS Code en open het opnieuw.
-  setx MAINFRAME_HOME "G:\Mijn Drive\Mainframe-data"
-  ```
+1. **Installeer Google Drive voor desktop** (google.com/drive/download) en log in met je persoonlijke Google-account.
+2. **Maak in Mijn Drive de map `Mainframe-archief`** aan.
+3. **Zorg dat de map offline beschikbaar is.** Klik met de rechtermuisknop op de map → *Offline beschikbaar* (Windows), of stel Google Drive in op *Bestanden spiegelen* (Mac). Zo kun je ook zonder internet zoeken.
+4. **Vertel het mainframe waar het archief staat.** Dit doe je één keer:
 
-  ```bash
-  # Mac: voeg deze regel toe aan ~/.zshrc
-  export MAINFRAME_HOME="$HOME/Library/CloudStorage/GoogleDrive-<jouw-account>/Mijn Drive/Mainframe-data"
-  ```
+   ```powershell
+   # Windows (PowerShell). Controleer eerst welke stationsletter Google Drive heeft (meestal G:).
+   setx MAINFRAME_ARCHIEF "G:\Mijn Drive\Mainframe-archief"
+   ```
 
-  Let op het gratis Google-account: daar heb je 15 GB, gedeeld met Gmail en Foto's.
+   ```bash
+   # Mac: voeg deze regel toe aan ~/.zshrc en open daarna een nieuwe terminal
+   export MAINFRAME_ARCHIEF="$HOME/Library/CloudStorage/GoogleDrive-<jouw-adres>/Mijn Drive/Mainframe-archief"
+   ```
+
+5. **Sluit VS Code helemaal af en open het opnieuw.** Pas dan ziet VS Code de nieuwe instelling.
+6. **Controleer:** `python -m mainframe status`. De melding noemt nu de map in Google Drive.
+
+Goed om te weten:
+- **Opslagruimte:** een gratis Google-account heeft 15 GB, gedeeld met Gmail en Foto's. Tekst neemt weinig ruimte in. Vooral bijlagen (pdf's, afbeeldingen) tellen mee. Kijk na de eerste grote import even hoeveel ruimte er nog is.
+- **Geen kringloop:** het mainframe zet een onzichtbaar bestand `.mainframe-archief` in de archiefmap. Maak je later een Google Takeout-export van je hele Drive, dan herkent de importer zijn eigen archief en slaat hij het over. Je kunt de map `Mainframe-archief` in Takeout ook gewoon uitvinken.
+- **Nieuwe computer:** installeer Google Drive voor desktop, zet de instelling uit punt 4 opnieuw en voer `python -m mainframe index` uit. De zoekindex wordt dan opnieuw opgebouwd uit het archief.
 
 ## Stap 4. Vraag de exports aan (± 10 minuten, daarna wachten)
 

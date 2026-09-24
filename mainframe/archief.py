@@ -113,6 +113,12 @@ def lees(pad: Path) -> tuple[dict, str]:
     return gegevens, tekst.lstrip("\n")
 
 
+# Markeringsbestand in de hoofdmap van het archief. Als het archief in Google
+# Drive staat en later via Takeout wordt geëxporteerd, herkent de importer zo
+# de eigen archiefmap en slaat die over.
+MARKERING = ".mainframe-archief"
+
+
 def map_voor(item: Item, archief: Path) -> Path:
     jaar = item.aangemaakt.strftime("%Y") if item.aangemaakt else "onbekend"
     return archief / item.bron / jaar
@@ -127,6 +133,9 @@ def bewaar(item: Item, archief: Path) -> tuple[str, Path]:
     """
     doelmap = map_voor(item, archief)
     doelmap.mkdir(parents=True, exist_ok=True)
+    markering = archief / MARKERING
+    if not markering.exists():
+        markering.write_text("Dit is een Mainframe-archief. Niet opnieuw importeren.\n", encoding="utf-8")
     datum = item.aangemaakt.strftime("%Y-%m-%d") if item.aangemaakt else "0000-00-00"
     pad = doelmap / f"{datum}_{item.kort_id}_{slug(item.titel)}.md"
     if item.bijlage_bron:

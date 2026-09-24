@@ -79,6 +79,16 @@ class BestandenTest(unittest.TestCase):
         self.assertIsNotNone(items["logo"].bijlage_bron)
 
 
+class EigenArchiefOverslaanTest(TijdelijkeMap):
+    def test_archief_in_drive_export_wordt_overgeslagen(self):
+        drive = self.basis / "Drive"
+        shutil.copytree(FIXTURES / "drive", drive)
+        for item in chatgpt_export.importeer(FIXTURES / "chatgpt"):
+            archief.bewaar(item, drive / "Mainframe-archief")
+        titels = {i.titel for i in bestanden.importeer(drive, bron="google-drive")}
+        self.assertEqual(titels, {"overleg", "pagina", "plan", "logo"})
+
+
 class ArchiefTest(TijdelijkeMap):
     def test_opnieuw_importeren_maakt_geen_dubbelen(self):
         item = next(chatgpt_export.importeer(FIXTURES / "chatgpt"))
@@ -122,6 +132,18 @@ class CliTest(TijdelijkeMap):
 
         _, uitvoer = self.cli("status")
         self.assertIn("totaal", uitvoer)
+
+    def test_archief_op_aparte_locatie(self):
+        drive = self.basis / "Google Drive" / "Mainframe-archief"
+        code, _ = self.cli("--archief", str(drive), "importeer", "chatgpt", str(FIXTURES / "chatgpt"))
+        self.assertEqual(code, 0)
+        self.assertEqual(len(list(drive.rglob("*.md"))), 1)
+        self.assertFalse((self.basis / "archief").exists())
+        # De zoekindex blijft lokaal, buiten de gesynchroniseerde map.
+        self.assertTrue((self.basis / ".mainframe" / "index.db").exists())
+        self.assertFalse(list(drive.rglob("*.db")))
+        _, uitvoer = self.cli("--archief", str(drive), "zoek", "medmij")
+        self.assertIn("PGO-koppelingen", uitvoer)
 
     def test_status_leeg(self):
         self.assertIn("nog leeg", self.cli("status")[1])

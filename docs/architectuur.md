@@ -8,7 +8,7 @@
         └────────────────┴───── importers ┴──────────────┴────────────────┘
                                      │
                                      ▼
-                      archief/  (Markdown, één bestand per stuk)
+          archief in Google Drive  (Markdown, één bestand per stuk)
                                      │
                      ┌───────────────┴────────────────┐
                      ▼                                ▼
@@ -24,7 +24,9 @@ Er zijn drie lagen, elk met een eigen taak:
 
 ## Het archiefformaat
 
-Mappen: `archief/<bron>/<jaar>/<datum>_<kort-id>_<titel>.md`
+Mappen: `<archief>/<bron>/<jaar>/<datum>_<kort-id>_<titel>.md`
+
+`<archief>` is de map in `MAINFRAME_ARCHIEF` (bij Kim: `Mijn Drive/Mainframe-archief`). Als die niet is ingesteld, is het `archief/` in de repository. In de hoofdmap staat het markeringsbestand `.mainframe-archief`.
 
 Een voorbeeld:
 
@@ -78,7 +80,8 @@ Elke regel van het kopblok is `sleutel: <JSON-waarde>`. Dat is geldige YAML, en 
 
 ## Privacy en beveiliging
 
-- Het archief staat alleen op je eigen computer en in de back-uplocatie die je zelf kiest.
+- Het archief staat op je eigen computer, in je Google Drive-map. Google Drive zorgt voor de back-up. De zoekindex en de inbox staan alleen lokaal.
+- Zet tweestapsverificatie aan op je Google-account. Het archief staat daar immers ook.
 - `.gitignore` houdt het archief, de inbox, de index en toekomstige sleutelbestanden buiten GitHub.
 - Het archief bevat alleen persoonlijke accounts. Werkgegevens van je werkgever en patiëntgegevens horen hier niet in, vanwege de AVG, NEN 7510 en het beleid van je werkgever.
 - Zet versleuteling van je schijf aan (BitLocker op Windows, FileVault op Mac). Het archief bevat veel persoonlijke informatie.

@@ -43,7 +43,7 @@ Als je een antwoord opnieuw hebt laten genereren, bewaart de importer alleen de 
 Kies **Google Takeout**. Google-documenten worden dan omgezet naar Word-bestanden, zodat hun tekst doorzoekbaar wordt.
 
 1. Ga naar takeout.google.com → **Alles deselecteren** → vink **Drive** aan.
-2. Bij *Meerdere formaten*: kies voor Documenten **DOCX**.
+2. Bij *Meerdere formaten*: kies voor Documenten **DOCX**. Bij *Alle Drive-gegevens inbegrepen* kun je de map `Mainframe-archief` uitvinken. Doe je dat niet, dan slaat de importer die map vanzelf over.
 3. Kies **Eenmalig exporteren**, als `.zip`.
 4. Pak de zip uit in `inbox/` en importeer:
    ```bash

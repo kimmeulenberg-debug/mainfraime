@@ -73,7 +73,7 @@ def _zoek(args, paden: config.Paden) -> int:
     for t in treffers:
         project = f" · {t.project}" if t.project else ""
         print(f"{t.datum}  [{t.bron}/{t.type}{project}]  {t.titel}")
-        print(f"    archief/{t.pad}")
+        print(f"    {paden.archief / t.pad}")
         print(f"    {' '.join(t.fragment.split())}")
         print()
     return 0
@@ -85,7 +85,7 @@ def _status(paden: config.Paden) -> int:
         kop, _ = archief.lees(bestand)
         telling[(kop.get("bron", "?"), kop.get("type", "?"))] += 1
     if not telling:
-        print("Het archief is nog leeg. Zie docs/stappenplan.md om te beginnen.")
+        print(f"Het archief in {paden.archief} is nog leeg. Zie docs/stappenplan.md om te beginnen.")
         return 0
     print(f"Archief: {paden.archief}")
     for (bron, soort), aantal in sorted(telling.items()):
@@ -96,7 +96,8 @@ def _status(paden: config.Paden) -> int:
 
 def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="mainframe", description="Persoonlijk archief")
-    p.add_argument("--basis", help="basismap van het mainframe (standaard: deze repository)")
+    p.add_argument("--basis", help="basismap voor inbox en zoekindex (standaard: deze repository)")
+    p.add_argument("--archief", help="map van het archief (standaard: MAINFRAME_ARCHIEF of <basis>/archief)")
     sub = p.add_subparsers(dest="opdracht", required=True)
 
     imp = sub.add_parser("importeer", help="importeer een bron in het archief")
@@ -122,7 +123,7 @@ def main(argv: list[str] | None = None) -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(errors="replace")
     args = parser().parse_args(argv)
-    paden = config.paden(args.basis)
+    paden = config.paden(args.basis, args.archief)
     if args.opdracht == "importeer":
         return _importeer(args, paden)
     if args.opdracht == "zoek":
