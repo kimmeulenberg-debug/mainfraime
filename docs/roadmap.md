@@ -10,15 +10,23 @@ Elke fase levert iets op dat je direct kunt gebruiken. Pas als een fase in de pr
 - [x] Claude Code-instructies voor vragen over het archief
 - [ ] Eerste echte import en evaluatie: wat mis je, wat is overbodig?
 
-## Fase 2: Minder handwerk
+## Fase 2: Thuisbasis op de Mac mini (nu)
 
-- Automatisch importeren wat in `inbox/` wordt gezet: bestanden neerzetten en klaar.
-- Een geplande taak die elke week de Claude Code-sessies importeert (Taakplanner in Windows, launchd op de Mac).
+Zie [mac-mini.md](mac-mini.md).
+
+- [x] Inbox die vanzelf wordt verwerkt (`inbox/<bron>/`, verwerkte bestanden naar `inbox/verwerkt/`)
+- [x] Nachtelijke taak via launchd: Claude Code-sessies, inbox en zoekindex
+- [x] Geheugen voor Claude (over mij, projecten, voorkeuren) in de back-up via Google Drive
+- [x] Vaste opdrachten: `/archief`, `/weekoverzicht`, `/onthoud`, `/inbox`
+- [x] Stappenplan: altijd aan, Tailscale, Orca, Remote Control, VS Code via SSH
+- [ ] Mac mini inrichten en de herstarttest doen
+- [ ] Geheugen invullen en een week in de praktijk gebruiken
+
+## Fase 3: Rechtstreekse koppelingen en verrijking
+
 - OneNote rechtstreeks koppelen via Microsoft Graph. Dat is gratis voor een persoonlijk account, maar je moet eenmalig een app registreren.
 - Google Drive rechtstreeks koppelen via de Drive API. Dat is gratis, maar je hebt eenmalig een Google Cloud-project nodig.
 - Tekst uit PDF's halen, zodat ook die op inhoud doorzoekbaar worden.
-
-## Fase 3: Structuur en verrijking
 
 - Projecten over bronnen heen samenvoegen. Bijvoorbeeld: "Informatieplan" bestaat in Claude, ChatGPT en Drive.
 - Met Claude Code samenvattingen en tags laten maken per stuk, in batches en binnen Pro.
@@ -41,8 +49,9 @@ Elke fase levert iets op dat je direct kunt gebruiken. Pas als een fase in de pr
 | Doel versie 1 | Eerst een archief, dashboard en automatisering later |
 | Opslag | Echte kopie van de inhoud, niet alleen links |
 | Accounts | Alleen persoonlijke accounts |
-| Waar het draait | Lokaal op de eigen computer |
+| Waar het draait | Lokaal, op de Mac mini die altijd aanstaat |
+| Bediening op afstand | Tailscale, met Orca of Remote Control in de Claude-app |
 | AI | Claude, via Claude Code (valt binnen Claude Pro) |
 | Kosten | Geen extra kosten naast Claude Pro |
-| Back-up | Archief in Google Drive (`MAINFRAME_ARCHIEF`), index en inbox lokaal |
+| Back-up | Archief en geheugen in Google Drive (`instellen --archief`), index en inbox lokaal |
 | Gmail | Later, na fase 1 |

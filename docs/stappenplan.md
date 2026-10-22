@@ -51,25 +51,24 @@ Google Drive\Mijn Drive\Mainframe-archief\   ← archief (automatisch geback-upt
 1. **Installeer Google Drive voor desktop** (google.com/drive/download) en log in met je persoonlijke Google-account.
 2. **Maak in Mijn Drive de map `Mainframe-archief`** aan.
 3. **Zorg dat de map offline beschikbaar is.** Klik met de rechtermuisknop op de map → *Offline beschikbaar* (Windows), of stel Google Drive in op *Bestanden spiegelen* (Mac). Zo kun je ook zonder internet zoeken.
-4. **Vertel het mainframe waar het archief staat.** Dit doe je één keer:
+4. **Vertel het mainframe waar het archief staat.** Dit doe je één keer, in de terminal van VS Code:
 
    ```powershell
-   # Windows (PowerShell). Controleer eerst welke stationsletter Google Drive heeft (meestal G:).
-   setx MAINFRAME_ARCHIEF "G:\Mijn Drive\Mainframe-archief"
+   # Windows. Controleer eerst welke stationsletter Google Drive heeft (meestal G:).
+   python -m mainframe instellen --archief "G:\Mijn Drive\Mainframe-archief"
    ```
 
    ```bash
-   # Mac: voeg deze regel toe aan ~/.zshrc en open daarna een nieuwe terminal
-   export MAINFRAME_ARCHIEF="$HOME/Library/CloudStorage/GoogleDrive-<jouw-adres>/Mijn Drive/Mainframe-archief"
+   # Mac
+   python3 -m mainframe instellen --archief "$HOME/Library/CloudStorage/GoogleDrive-<jouw-adres>/Mijn Drive/Mainframe-archief"
    ```
 
-5. **Sluit VS Code helemaal af en open het opnieuw.** Pas dan ziet VS Code de nieuwe instelling.
-6. **Controleer:** `python -m mainframe status`. De melding noemt nu de map in Google Drive.
+5. **Controleer:** `python -m mainframe status`. De melding noemt nu de map in Google Drive.
 
 Goed om te weten:
 - **Opslagruimte:** een gratis Google-account heeft 15 GB, gedeeld met Gmail en Foto's. Tekst neemt weinig ruimte in. Vooral bijlagen (pdf's, afbeeldingen) tellen mee. Kijk na de eerste grote import even hoeveel ruimte er nog is.
 - **Geen kringloop:** het mainframe zet een onzichtbaar bestand `.mainframe-archief` in de archiefmap. Maak je later een Google Takeout-export van je hele Drive, dan herkent de importer zijn eigen archief en slaat hij het over. Je kunt de map `Mainframe-archief` in Takeout ook gewoon uitvinken.
-- **Nieuwe computer:** installeer Google Drive voor desktop, zet de instelling uit punt 4 opnieuw en voer `python -m mainframe index` uit. De zoekindex wordt dan opnieuw opgebouwd uit het archief.
+- **Nieuwe computer:** installeer Google Drive voor desktop, voer `instellen` uit punt 4 opnieuw uit en daarna `python -m mainframe index`. De zoekindex wordt dan opnieuw opgebouwd uit het archief.
 
 ## Stap 4. Vraag de exports aan (± 10 minuten, daarna wachten)
 
@@ -123,4 +122,4 @@ Claude Code volgt de instructies in `CLAUDE.md`: het zoekt in het archief, leest
 
 Een tip om langer te bewaren: zet in `~/.claude/settings.json` de regel `"cleanupPeriodDays": 365`. Dan blijven Claude Code-sessies een jaar staan.
 
-In fase 2 (zie `roadmap.md`) automatiseren we zoveel mogelijk van deze stappen.
+Op de Mac mini gaat het meeste hiervan vanzelf: zie [mac-mini.md](mac-mini.md). Je zet exports dan alleen nog in `inbox/`.

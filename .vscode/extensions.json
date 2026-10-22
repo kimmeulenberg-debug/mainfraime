@@ -1,6 +1,7 @@
 {
   "recommendations": [
     "ms-python.python",
-    "anthropic.claude-code"
+    "anthropic.claude-code",
+    "ms-vscode-remote.remote-ssh"
   ]
 }

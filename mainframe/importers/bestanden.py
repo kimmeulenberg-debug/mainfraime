@@ -61,9 +61,14 @@ def _lees(pad: Path) -> str | None:
     return None
 
 
-def importeer(pad: Path, bron: str, project: str | None = None):
+def importeer(pad: Path, bron: str, project: str | None = None, basis: Path | None = None):
+    """Importeer een bestand of map.
+
+    `basis` bepaalt vanaf waar het relatieve pad (en dus het id) wordt
+    gerekend. Standaard is dat de opgegeven map zelf.
+    """
     pad = Path(pad)
-    basis = pad if pad.is_dir() else pad.parent
+    basis = Path(basis) if basis else (pad if pad.is_dir() else pad.parent)
     bestanden = [pad] if pad.is_file() else sorted(p for p in pad.rglob("*") if p.is_file())
     archiefmappen = [m.parent for m in bestanden if m.name == MARKERING]
     for bestand in bestanden:

@@ -7,16 +7,22 @@ Voorbeelden:
     python -m mainframe importeer map inbox/takeout/Drive --bron google-drive
     python -m mainframe zoek "regie op gegevens"
     python -m mainframe status
+    python -m mainframe verwerk-inbox      # alles in inbox/ importeren
+    python -m mainframe onderhoud          # wat de Mac mini elke nacht doet
+    python -m mainframe geheugen           # vaste context voor Claude tonen
+    python3 -m mainframe taak installeer   # nachtelijke taak op de Mac mini
+    python -m mainframe instellen --archief "<map in Google Drive>"
 """
 
 from __future__ import annotations
 
 import argparse
-import re
+import os
 import sys
 from collections import Counter
+from datetime import datetime
 
-from mainframe import archief, config, zoeken
+from mainframe import archief, config, geheugen, inbox, mac, zoeken
 from mainframe.importers import bestanden, chatgpt_export, claude_code, claude_export
 from mainframe.importers._export import ExportFout
 
@@ -35,8 +41,12 @@ def _importeer(args, paden: config.Paden) -> int:
         if not args.pad:
             print("Geef de map op die je wilt importeren.", file=sys.stderr)
             return 2
-        if not re.fullmatch(r"[a-z0-9][a-z0-9-]*", args.bron):
-            print("Gebruik voor --bron alleen kleine letters, cijfers en '-'.", file=sys.stderr)
+        if not inbox.geldige_bron(args.bron):
+            print(
+                "Gebruik voor --bron alleen kleine letters, cijfers en '-'"
+                f" (en niet: {', '.join(sorted(inbox.GERESERVEERD))}).",
+                file=sys.stderr,
+            )
             return 2
         items = bestanden.importeer(args.pad, bron=args.bron, project=args.project)
 
@@ -49,10 +59,7 @@ def _importeer(args, paden: config.Paden) -> int:
         print(f"Fout: {fout}", file=sys.stderr)
         return 1
 
-    print(
-        f"Klaar: {telling['nieuw']} nieuw, {telling['bijgewerkt']} bijgewerkt,"
-        f" {telling['ongewijzigd']} ongewijzigd."
-    )
+    print(f"Klaar: {_telling_tekst(telling)}.")
     if not args.geen_index:
         aantal = zoeken.bouw_index(paden.archief, paden.index)
         print(f"Zoekindex bijgewerkt ({aantal} items).")
@@ -76,6 +83,64 @@ def _zoek(args, paden: config.Paden) -> int:
         print(f"    {paden.archief / t.pad}")
         print(f"    {' '.join(t.fragment.split())}")
         print()
+    return 0
+
+
+def _telling_tekst(telling: Counter) -> str:
+    return (
+        f"{telling['nieuw']} nieuw, {telling['bijgewerkt']} bijgewerkt,"
+        f" {telling['ongewijzigd']} ongewijzigd"
+    )
+
+
+def _verwerk_inbox(paden: config.Paden, index: bool = True) -> int:
+    verslag = inbox.verwerk(paden)
+    for regel in verslag.regels():
+        print(regel)
+    if verslag.verwerkt:
+        print(f"Archief: {_telling_tekst(verslag.telling)}.")
+        if index:
+            print(f"Zoekindex bijgewerkt ({zoeken.bouw_index(paden.archief, paden.index)} items).")
+    return 1 if verslag.fouten else 0
+
+
+def _onderhoud(paden: config.Paden) -> int:
+    """Eén ronde onderhoud: Claude Code-sessies, inbox en zoekindex."""
+    print(f"=== Onderhoud {datetime.now():%Y-%m-%d %H:%M} ===")
+    if not paden.archief.exists():
+        # Bijvoorbeeld als Google Drive nog niet is gestart of de map niet bereikbaar is.
+        print(f"Fout: archief niet gevonden: {paden.archief}", file=sys.stderr)
+        return 1
+    telling: Counter[str] = Counter()
+    for item in claude_code.importeer():
+        status, _ = archief.bewaar(item, paden.archief)
+        telling[status] += 1
+    print(f"Claude Code-sessies: {_telling_tekst(telling)}.")
+    code = _verwerk_inbox(paden, index=False)
+    print(f"Zoekindex bijgewerkt ({zoeken.bouw_index(paden.archief, paden.index)} items).")
+    return code
+
+
+def _geheugen(paden: config.Paden) -> int:
+    print(geheugen.toon(paden.geheugen))
+    return 0
+
+
+def _instellen(args, paden: config.Paden) -> int:
+    if args.archief_map:
+        doel = config._map(args.archief_map)
+        if not doel.parent.exists():
+            print(f"Fout: de bovenliggende map bestaat niet: {doel.parent}", file=sys.stderr)
+            return 1
+        doel.mkdir(exist_ok=True)
+        pad = config.bewaar_instellingen(paden.basis, archief=str(doel))
+        print(f"Opgeslagen in {pad}")
+        paden = config.paden(paden.basis)
+    print(f"Archief:   {paden.archief}")
+    print(f"Inbox:     {paden.inbox}")
+    print(f"Zoekindex: {paden.index}")
+    if os.environ.get("MAINFRAME_ARCHIEF"):
+        print("Let op: de omgevingsvariabele MAINFRAME_ARCHIEF is gezet en gaat voor op deze instelling.")
     return 0
 
 
@@ -115,6 +180,16 @@ def parser() -> argparse.ArgumentParser:
 
     sub.add_parser("index", help="bouw de zoekindex opnieuw op")
     sub.add_parser("status", help="toon wat er in het archief staat")
+    sub.add_parser("verwerk-inbox", help="importeer alles wat in inbox/ staat")
+    sub.add_parser("onderhoud", help="Claude Code-sessies + inbox + zoekindex (voor de nachtelijke taak)")
+    sub.add_parser("geheugen", help="toon het geheugen van Claude (maakt het aan als het ontbreekt)")
+
+    st = sub.add_parser("instellen", help="toon of wijzig waar het archief staat")
+    st.add_argument("--archief", dest="archief_map", help="map voor het archief, bv. in Google Drive")
+
+    tk = sub.add_parser("taak", help="automatische taak op de Mac (launchd)")
+    tk.add_argument("actie", choices=["installeer", "verwijder", "start", "status"])
+    tk.add_argument("--tijd", default="03:00", help="tijdstip van de dagelijkse ronde (UU:MM)")
     return p
 
 
@@ -128,6 +203,20 @@ def main(argv: list[str] | None = None) -> int:
         return _importeer(args, paden)
     if args.opdracht == "zoek":
         return _zoek(args, paden)
+    if args.opdracht == "verwerk-inbox":
+        return _verwerk_inbox(paden)
+    if args.opdracht == "onderhoud":
+        return _onderhoud(paden)
+    if args.opdracht == "geheugen":
+        return _geheugen(paden)
+    if args.opdracht == "instellen":
+        return _instellen(args, paden)
+    if args.opdracht == "taak":
+        if args.actie == "installeer":
+            print(mac.installeer(paden, args.tijd))
+        else:
+            print({"verwijder": mac.verwijder, "start": mac.start, "status": mac.status}[args.actie]())
+        return 0
     if args.opdracht == "index":
         print(f"Zoekindex opgebouwd ({zoeken.bouw_index(paden.archief, paden.index)} items).")
         return 0

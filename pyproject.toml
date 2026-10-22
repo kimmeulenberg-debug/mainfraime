@@ -16,3 +16,6 @@ mainframe = "mainframe.cli:main"
 
 [tool.setuptools]
 packages = ["mainframe", "mainframe.importers"]
+
+[tool.setuptools.package-data]
+mainframe = ["sjablonen/geheugen/*.md"]

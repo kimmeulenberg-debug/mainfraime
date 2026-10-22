@@ -22,7 +22,11 @@ python -m mainframe importeer chatgpt inbox/chatgpt.zip       # ChatGPT-chats
 python -m mainframe importeer claude-code                     # Claude Code-sessies op deze computer
 python -m mainframe importeer map inbox/Takeout/Drive --bron google-drive
 python -m mainframe zoek "regie op gegevens"                 # zoeken in alles
+python -m mainframe verwerk-inbox                             # alles in inbox/<bron>/ importeren
+python -m mainframe geheugen                                  # vaste context voor Claude
 ```
+
+Op de Mac mini gebeurt het importeren vanzelf, elke nacht en zodra er iets in `inbox/` komt. Zie [docs/mac-mini.md](docs/mac-mini.md).
 
 Daarna kun je in VS Code aan Claude Code vragen stellen als *"Wat heb ik vorig jaar over FHIR besproken?"*. Claude Code zoekt dan in het archief (zie `CLAUDE.md`).
 
@@ -32,6 +36,7 @@ Daarna kun je in VS Code aan Claude Code vragen stellen als *"Wat heb ik vorig j
 |---|---|
 | [docs/stappenplan.md](docs/stappenplan.md) | Stap voor stap aan de slag, van installatie tot eerste zoekvraag |
 | [docs/bronnen.md](docs/bronnen.md) | Hoe je per bron een export maakt |
+| [docs/mac-mini.md](docs/mac-mini.md) | Fase 2: de Mac mini als thuisbasis die altijd aanstaat |
 | [docs/architectuur.md](docs/architectuur.md) | Opbouw, archiefformaat en keuzes |
 | [docs/roadmap.md](docs/roadmap.md) | Wat er na versie 1 komt |
 
@@ -39,8 +44,9 @@ Daarna kun je in VS Code aan Claude Code vragen stellen als *"Wat heb ik vorig j
 
 ```
 mainframe/     de code (importers, archief, zoeken)
-archief/       standaardplek van het archief (bij mij: Google Drive, via MAINFRAME_ARCHIEF)
+archief/       standaardplek van het archief (bij mij: Google Drive, via `instellen`)
 inbox/         hier zet je exportbestanden neer om te importeren (niet in Git)
 docs/          documentatie
+.claude/       vaste opdrachten voor Claude Code (/archief, /weekoverzicht, /onthoud, /inbox)
 tests/         automatische tests met voorbeeldgegevens
 ```

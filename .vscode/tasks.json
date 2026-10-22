@@ -4,26 +4,47 @@
     {
       "label": "Mainframe: status",
       "type": "shell",
-      "command": "python -m mainframe status",
-      "problemMatcher": []
+      "command": "python3 -m mainframe status",
+      "problemMatcher": [],
+      "windows": {
+        "command": "python -m mainframe status"
+      }
     },
     {
       "label": "Mainframe: zoeken",
       "type": "shell",
-      "command": "python -m mainframe zoek ${input:zoekterm}",
-      "problemMatcher": []
+      "command": "python3 -m mainframe zoek ${input:zoekterm}",
+      "problemMatcher": [],
+      "windows": {
+        "command": "python -m mainframe zoek ${input:zoekterm}"
+      }
+    },
+    {
+      "label": "Mainframe: inbox verwerken",
+      "type": "shell",
+      "command": "python3 -m mainframe verwerk-inbox",
+      "problemMatcher": [],
+      "windows": {
+        "command": "python -m mainframe verwerk-inbox"
+      }
     },
     {
       "label": "Mainframe: Claude Code-sessies importeren",
       "type": "shell",
-      "command": "python -m mainframe importeer claude-code",
-      "problemMatcher": []
+      "command": "python3 -m mainframe importeer claude-code",
+      "problemMatcher": [],
+      "windows": {
+        "command": "python -m mainframe importeer claude-code"
+      }
     },
     {
       "label": "Mainframe: tests",
       "type": "shell",
-      "command": "python -m unittest discover -s tests",
-      "problemMatcher": []
+      "command": "python3 -m unittest discover -s tests",
+      "problemMatcher": [],
+      "windows": {
+        "command": "python -m unittest discover -s tests"
+      }
     }
   ],
   "inputs": [

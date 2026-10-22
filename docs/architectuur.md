@@ -26,7 +26,7 @@ Er zijn drie lagen, elk met een eigen taak:
 
 Mappen: `<archief>/<bron>/<jaar>/<datum>_<kort-id>_<titel>.md`
 
-`<archief>` is de map in `MAINFRAME_ARCHIEF` (bij Kim: `Mijn Drive/Mainframe-archief`). Als die niet is ingesteld, is het `archief/` in de repository. In de hoofdmap staat het markeringsbestand `.mainframe-archief`.
+`<archief>` is de map die je met `python3 -m mainframe instellen --archief` hebt gekozen (bij Kim: `Mijn Drive/Mainframe-archief`). Als die niet is ingesteld, is het `archief/` in de repository. In de hoofdmap staat het markeringsbestand `.mainframe-archief`.
 
 Een voorbeeld:
 
@@ -66,6 +66,11 @@ Begin bij het Triple Aim-principe.
 | `bijlage` | Pad naar het bewaarde bestand, als het geen tekst is (pdf, afbeelding) |
 
 Elke regel van het kopblok is `sleutel: <JSON-waarde>`. Dat is geldige YAML, en het is eenvoudig en foutloos in te lezen zonder extra bibliotheken.
+
+## Geheugen en inbox
+
+- **Geheugen** (`<archief>/geheugen/`): een paar korte bestanden die Claude altijd leest. Het archief bevat *wat er ooit is gezegd*. Het geheugen bevat *wat Claude altijd moet weten*. Het geheugen telt niet mee als archiefstuk en wordt niet geïndexeerd.
+- **Inbox** (`inbox/<bron>/`): wat je hier neerzet, wordt bij de volgende ronde geïmporteerd en daarna verplaatst naar `inbox/verwerkt/<datum>/<bron>/`. Bestanden die net zijn gewijzigd (minder dan 2 minuten geleden), worden overgeslagen tot ze klaar zijn met downloaden. Bij een Takeout-zip en bij de uitgepakte map krijgt hetzelfde bestand hetzelfde id, zodat een nieuwe export bestaande stukken bijwerkt.
 
 ## Keuzes en waarom
 

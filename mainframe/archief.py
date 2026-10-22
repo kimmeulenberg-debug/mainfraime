@@ -164,4 +164,8 @@ def bewaar(item: Item, archief: Path) -> tuple[str, Path]:
 
 
 def alle_bestanden(archief: Path):
-    yield from sorted(p for p in archief.rglob("*.md") if p.parent.name != "bijlagen")
+    """Alle archiefstukken; bijlagen en het geheugen van Claude horen daar niet bij."""
+    for pad in sorted(archief.rglob("*.md")):
+        delen = pad.relative_to(archief).parts
+        if delen[0] != "geheugen" and "bijlagen" not in delen[:-1]:
+            yield pad
